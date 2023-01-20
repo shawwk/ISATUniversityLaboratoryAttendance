@@ -1,0 +1,305 @@
+﻿@page "/teacher"
+@using System.Transactions
+@inject ITeacherService teacherService
+@inject IStudentService studentService
+@inject IUserService userService
+@inject ISnackbar SnackBar
+
+<div class="container">
+    <div class="col-lg-2 col-md-12">
+        @if (open)
+        {
+            <button class="btn btn-danger mb-2" @onclick='(()=> ToggleAdd())'>Cancel</button>
+            <button class="btn btn-primary mb-2" @onclick='(()=> AddTeacher())'>Save</button>
+        }
+        else
+        {
+            <button class="btn btn-primary mb-2" @onclick='(()=> ToggleAdd())'>Add Teacher</button>
+        }
+    </div>
+    @if (open)
+    {
+        <MudCard>
+            <div class="row mb-4 p-4">
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="emp-id" class="col-form-label">Employee ID:</label>
+                        <input type="number" id="emp-id" class="form-control" disabled="@disableEmployeeId"
+                           @bind-value="@teacher.EmployeeId" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="f-name" class="col-form-label">Firstname:</label>
+                        <input id="f-name" class="form-control" @bind-value="@teacher.FirstName" type="text" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="m-name" class="col-form-label">Midllename:</label>
+                        <input id="m-name" class="form-control" @bind-value="@teacher.MiddleName" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="l-name" class="col-form-label">Lastname:</label>
+                        <input id="l-name" class="form-control" @bind-value="@teacher.LastName" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <span for="recipient-name" class="col-form-label">Gender:</span>
+                        <MudSelect @bind-Value="gender" Variant="Variant.Text">
+                            @foreach (Enums.Gender item in Enum.GetValues(typeof(Enums.Gender)))
+                            {
+                                <MudSelectItem Value="@item">@item</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <span for="recipient-name" class="col-form-label">Birth Date:</span>
+                        <MudDatePicker @bind-Date="bday" MaxDate="DateTime.Now" />
+                    </div>
+                </div>
+            </div>
+        </MudCard>
+    }
+    <div id="tblSchedule" class="m-auto mt-4">
+        <MudTable Items="teachers" Dense=true Striped=true Hover=true Bordered=true Filter="new Func<Teacher,bool>(FilterFunc1)">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6" class="text-muted">Teachers</MudText>
+                <MudSpacer />
+                <MudTextField Placeholder="Search" @bind-Value="searchString" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <ColGroup>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col width="10px" />
+                <col width="10px" />
+                <col width="10px" />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Employee ID</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Gender</MudTh>
+                <MudTh>Birth Date</MudTh>
+                <MudTh></MudTh>
+                <MudTh></MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Employee ID">@context.EmployeeId</MudTd>
+                <MudTd DataLabel="Name">@context.FirstName @context.MiddleName @context.LastName</MudTd>
+                <MudTd DataLabel="Gender">@Common.GetEnumDescription(context.Gender)</MudTd>
+                <MudTd DataLabel="Birth Date">@context.BirthDate.ToShortDateString()</MudTd>
+                <MudTd><button class="btn btn-success text-center" @onclick='(()=> GetTeacher(context.Id))'>Edit</button></MudTd>
+                <MudTd><button class="btn btn-warning text-white text-center" @onclick='(()=> ShowMessageBox(context))'>Reset</button></MudTd>
+                <MudTd><button class="btn btn-danger text-center" @onclick='(()=>DeactivateAccount(context))'>Remove</button></MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+    </div>
+</div>
+<MudMessageBox @ref="mbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to reset account username/password to default?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary">Reset</MudButton>
+    </YesButton>
+</MudMessageBox>
+<MudMessageBox @ref="dbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to deactivate account?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error">Deactivate</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@code {
+    Teacher teacher = new Teacher();
+    List<Teacher> teachers = new List<Teacher>();
+    DateTime? bday = DateTime.Today;
+
+    Enums.Gender gender { get; set; }
+    MudMessageBox mbox { get; set; }
+    MudMessageBox dbox { get; set; }
+
+    string searchString = "";
+    bool open = false;
+    bool disableEmployeeId = false;
+
+    protected override void OnInitialized()
+    {
+        LoadAllTeachers();
+        base.OnInitialized();
+    }
+
+    public List<Teacher> LoadAllTeachers()
+    {
+        teachers = teacherService.GetAllTeacher();
+        return teachers;
+    }
+    private void AddTeacher()
+    {
+        try
+        {
+            teacher.Gender = gender;
+            teacher.BirthDate = (DateTime)bday;
+            if (teacher.Id == 0)
+            {
+                if (!Validation())
+                {
+                    bool isEmpIdExist = teacherService.IsEmployeeIDExist(Convert.ToInt64(teacher.EmployeeId));
+                    bool isStudIdExist = studentService.IsStudentIdExists(Convert.ToInt64(teacher.EmployeeId));
+
+                    if (!RemoveSpecialCharacters(teacher))
+                    {
+                        if (!isEmpIdExist && !isStudIdExist)
+                        {
+                            var teacher1 = teacherService.AddTeacher(teacher);
+
+                            var user = new Users()
+                                {
+                                    UserId = teacher1.Id.ToString().Trim(),
+                                    IDNumber = Convert.ToInt64(teacher1.EmployeeId),
+                                    UserRole = Enums.UserRole.Faculty,
+                                    Password = PasswordManager.Encrypt("temporary1234"),
+                                    UserName = teacher1.FirstName.ToLower().Trim() + '.' + teacher1.LastName.ToLower()
+                                };
+                            userService.RegisterUser(user);
+                            teachers.Add(teacher1);
+                            Common.ShowAlert("Added successfully", Severity.Success, SnackBar);
+                            open = false;
+                        }
+                        else
+                        {
+                            Common.ShowAlert("ID Number: " + teacher.EmployeeId + " already exists ", Severity.Error, SnackBar);
+                        }
+                    }
+                }
+                else
+                {
+                    Common.ShowAlert("Complete all the details", Severity.Warning, SnackBar);
+                }
+            }
+            else
+            {
+                if (!RemoveSpecialCharacters(teacher))
+                {
+                    var teacher1 = teacherService.UpdateTeacher(teacher);
+                    teachers.RemoveAll(x => x.Id == teacher1.Id);
+                    teachers.Add(teacher1);
+                    Common.ShowAlert("Updated successfully", Severity.Success, SnackBar);
+                    open = false;
+                }
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    private bool FilterFunc1(Teacher teacher) => FilterFunc(teacher, searchString);
+    private bool FilterFunc(Teacher teacher, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (teacher.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (teacher.MiddleName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (teacher.LastName.Contains(searchString))
+            return true;
+        return false;
+    }
+    private void ToggleAdd()
+    {
+        teacher = new();
+        disableEmployeeId = false;
+
+        open = !open;
+        StateHasChanged();
+    }
+    private void GetTeacher(Int64 Id)
+    {
+        var teach = teacherService.GetTeacherById(Id);
+        teacher = teach;
+        bday = teach.BirthDate;
+        gender = teach.Gender;
+        open = true;
+        disableEmployeeId = true;
+    }
+
+    private async void ShowMessageBox(Teacher teacher)
+    {
+        bool? result = await mbox.Show();
+        if (result != null)
+        {
+            try
+            {
+                var user = userService.GetUserByIDNumber(Convert.ToInt64((string)teacher.EmployeeId));
+                user.UserName = teacher.FirstName.ToLower().Trim() + '.' + teacher.LastName.ToLower().Trim();
+                user.Password = PasswordManager.Encrypt("temporary1234");
+                var account = userService.ResetAccount(user);
+                //if(account != null)
+                Common.ShowAlert("Account reset successfully!", Severity.Success, SnackBar);
+            }
+            catch (Exception ex)
+            {
+                Common.ShowAlert(ex.ToString(), Severity.Error, SnackBar);
+            }
+        }
+        StateHasChanged();
+    }
+    private async void DeactivateAccount(Teacher teacher)
+    {
+        bool? result = await dbox.Show();
+        if (result != null)
+        {
+            try
+            {
+                var user = userService.GetUserByIDNumber(Convert.ToInt64((string)teacher.EmployeeId));
+                teacherService.DeactivateTeacher(teacher);
+                userService.DeactivateUser(user);
+                teachers.RemoveAll(x => x.Id == teacher.Id);
+                StateHasChanged();
+                Common.ShowAlert("Account deactivated successfully!", Severity.Success, SnackBar);
+            }
+            catch (Exception ex)
+            {
+                Common.ShowAlert(ex.ToString(), Severity.Error, SnackBar);
+            }
+        }
+    }
+    private bool Validation()
+    {
+        return teacher.FirstName == ""
+        || teacher.MiddleName == ""
+        || teacher.LastName == ""
+        || teacher.EmployeeId == "";
+    }
+    public bool RemoveSpecialCharacters(Teacher input)
+    {
+        Regex r = new Regex(
+                      "(?:[^a-zA-Z0-9 ]|(?<=['\"])s)",
+                      RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        //return r.Replace(input, String.Empty);
+        if (r.IsMatch(input.FirstName.Replace(".", " ")))
+        { Common.ShowAlert("First name: Special characters are not allowed!", Severity.Error, SnackBar); return true; }
+        else if (r.IsMatch(input.MiddleName.Replace(".", " ")))
+        { Common.ShowAlert("Middle name: Special characters are not allowed!", Severity.Error, SnackBar); return true; }
+        else if (r.IsMatch(input.LastName))
+        { Common.ShowAlert("Last name: Special characters are not allowed!", Severity.Error, SnackBar); return true; }
+        else
+            return false;
+    }
+}

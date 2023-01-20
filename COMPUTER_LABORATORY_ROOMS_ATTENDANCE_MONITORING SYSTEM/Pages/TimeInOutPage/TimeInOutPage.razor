@@ -1,0 +1,177 @@
+﻿@layout LoginLayout
+@page "/time"
+@inject IJSRuntime JsRuntime
+@inject IStudentService studentService
+@inject ITimelogsService timelogsService
+@inject ITeacherService teacherService
+@inject IGlobalService globalService
+@inject IClassScheduleService classService
+@inject ISnackbar snackBar
+@inject ITimelogsService timeService
+@inject Blazored.SessionStorage.ISessionStorageService session
+@inject NavigationManager nav
+
+<PageTitle>RFID</PageTitle>
+
+<div class="row" style="margin-top: 15vh">
+    <div class="col-lg-6 col-md-12 col-xm-3 m-auto p-3">
+        <MudCard Elevation="2" Class="text-center mb-2">
+            <img class="img-fluid mb-3" src="/images/clock.png" style="width: 100px;opacity: 0.7; vertical-align: bottom" />
+            <span class="fw-bold" style="font-size: 85px">@theTime</span><br />
+            <span class="fw-bold" style="font-size: 40px">@DateTime.Now.Date.ToShortDateString()</span>
+        </MudCard>
+        <MudCard>
+            <div class="row font-monospace p-3">
+                <div class="col-12 align-items-center">
+                    <span style="font-size: 40px" class="fw-bolder">Name:</span>
+                    <span style="font-size: 40px">@student.FirstName @student.MiddleName @student.LastName</span>
+                </div>
+                <div class="col-12 align-items-center">
+                    <span style="font-size: 40px" class="fw-bold">Course:</span>
+                    <span style="font-size: 40px">@student.Course</span>
+                </div>
+                <div class="col-12 align-items-center">
+                    <span style="font-size: 40px" class="fw-bold">Section:</span>
+                    <span style="font-size: 40px">@student.Section</span>
+                </div>
+            </div>
+            <button class="m-3 btn btn-outline-danger d-none" @onclick="(()=> EndClass())">End Class</button>
+        </MudCard>
+       
+    </div>
+    <div class="col-lg-12 col-md-12 col-xm-3 m-auto p-3">
+        <input id="RFID" @ref="focusRef" type="text" @onchange="GetStudentId" onblur="this.focus()" autofocus />
+    </div>
+</div>
+<MudMessageBox @ref="dbox" Title="End Class" CancelText="Cancel">
+    <MessageContent>
+        This action cannot be undone. Are you sure you want to end the class?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error">End Class</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+
+@code {
+    [Parameter]
+    public int selectedClass { get; set; }
+
+    Student student = new Student();
+    List<Sections> sectionList = new List<Sections>();
+    string theTime;
+    Timer aTimer;
+    TimeSpan t;
+    TimeSpan TimeLeft = new TimeSpan(0, 0, 5);
+    ElementReference focusRef;
+    MudMessageBox dbox { get; set; }
+    Users currentUser = new();
+    protected override void OnInitialized()
+    {
+        aTimer = new Timer(Tick, null, 0, 1000);
+        //sectionList = globalService.GetAssignSections(Convert.ToInt64(Global.CurrentUser.UserId));
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await focusRef.FocusAsync();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    async void GetStudentId(ChangeEventArgs eventArgs)
+    {
+        student = studentService.GetStudentByIdNumber(Convert.ToInt64(eventArgs.Value));
+        if (student == null)
+        {
+            student = new();
+            Common.ShowAlert("Student is not enrolled", Severity.Warning, snackBar);
+        }
+        else
+        {
+            var logs = Convert.ToDateTime(theTime).ToString("HH:mm:ss");
+            //var subjectId = sectionList.First(x => x.ClassId == selectedClass).SubjectId;
+            var subject = classService.GetClassSchedules(Enums.ClassStatus.OnGoing, DateTime.Now.Date);
+            var subjectId = subject.Where(x => x.SectionId == student.SectionId).FirstOrDefault();
+            var datetime = DateTime.Now.DayOfWeek.ToString();
+            if (subject.Count == 0 && subjectId == null)
+            {
+                Common.ShowAlert("No class is in progress. Please ask admin for assistance", Severity.Warning, snackBar);
+            }
+            else
+            {
+                bool checkTimeIn = timelogsService.CheckDate(DateTime.Now.Date, student.StudentId, subjectId.SubjectId);
+                var timeInOut = new TimeInOut()
+                    {
+                        IDNumber = student.StudentId,
+                        SectionId = student.SectionId,
+                        Date = DateTime.Now.Date,
+                        TimeIn = TimeSpan.Parse(logs),
+                        TimeOut = checkTimeIn == false ? new TimeSpan() : TimeSpan.Parse(logs),
+                        SubjectId =  subjectId.SubjectId
+                    };
+                var timeId = timelogsService.AddTimeInOut(timeInOut);
+            }
+
+            Start();
+            //await JsRuntime.InvokeVoidAsync("console.log", timeId);
+        }
+        await JsRuntime.InvokeVoidAsync("Clear");
+    }
+    private void Tick(object _)
+    {
+        theTime = DateTime.Now.ToLongTimeString();
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        aTimer?.Dispose();
+    }
+    void Start()
+    {
+        Timer();
+    }
+
+    async Task Timer()
+    {
+        while (TimeLeft > new TimeSpan())
+        {
+            await Task.Delay(1000);
+            TimeLeft = TimeLeft.Subtract(new TimeSpan(0, 0, 1));
+            StateHasChanged();
+        }
+
+
+        await AfterTime();
+        StateHasChanged();
+    }
+
+    Task AfterTime()
+    {
+        TimeLeft = new TimeSpan(0, 0, 5);
+        student = new();
+        return Task.CompletedTask;
+    }
+    async void EndClass()
+    {
+        bool? result = await dbox.Show();
+        if(result != null)
+        {
+            var teacherId = Convert.ToInt64(Global.CurrentUser.UserId);
+            var subjectId = sectionList.First(x => x.ClassId == selectedClass).SubjectId;
+            var sectionId = sectionList.First(x => x.ClassId == selectedClass).Id;
+            var t = teacherService.StudentRecord(teacherId, sectionId, subjectId);
+            foreach (var item in t)
+            {
+                timeService.MarkAbsent(item.StudentId, DateTime.Now.Date, sectionId, subjectId);
+            }
+            classService.EndClass(selectedClass, DateTime.Now, Enums.ClassStatus.Ended);
+            Common.ShowAlert("Class ended successfully", Severity.Success, snackBar);
+            Global.isStarted = false;
+            nav.NavigateTo(nav.BaseUri + "teacher/attendance");
+            StateHasChanged();
+        }
+    }
+}

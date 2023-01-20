@@ -1,0 +1,29 @@
+﻿@page "/report/student/{teacherId}/{sectionId}/{subjectId}/{room}"
+@inject IJSRuntime Js
+@inject IGlobalService globalService
+<h3>StudentAttendance</h3>
+<div class="row">
+   <iframe></iframe>
+</div>
+
+@code {
+    [Parameter]
+    public long teacherId { get; set; }
+    [Parameter]
+    public long sectionId { get; set; }
+    [Parameter]
+    public long subjectId { get; set; }
+    [Parameter]
+    public Enums.Rooms room { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        Report();
+        return base.OnInitializedAsync();
+    }
+    private async void Report()
+    {
+        var rep = await globalService.GetReport(teacherId,sectionId,subjectId,room);
+    }
+
+}

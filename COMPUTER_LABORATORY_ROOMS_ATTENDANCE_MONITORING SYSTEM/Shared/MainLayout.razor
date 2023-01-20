@@ -1,0 +1,147 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager navManager
+@inject IUserService userService
+@inject IStudentService studentService
+@inject ITeacherService teacherService
+@inject Blazored.SessionStorage.ISessionStorageService session
+<PageTitle>COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM</PageTitle>
+
+<div class="page">
+    <MudLayout>
+        <MudAppBar Elevation="1" Dense="@dense" class="bg-white text-center">
+            @*<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Dark" Edge="Edge.Start" OnClick="@ToggleDrawer" />*@
+            <label class="text-muted fs-4">@currentUser.FullName</label>
+            <MudSpacer />
+            <img class="img-fluid m-2" width="50px" height="50px" src="images/ISAT.png" />
+            <h4 style="color: black">ISAT U COMPUTER LAB ATTENDANCE MONITORING</h4>
+        </MudAppBar>
+        <MudDrawer Style="background-color: aliceblue" @bind-Open="@open" ClipMode="clipMode" Breakpoint="@breakpoint" PreserveOpenState="@preserveOpenState" Elevation="1" Variant="@DrawerVariant.Mini">
+            <MudNavMenu>
+                <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Menu" OnClick="@ToggleDrawer" IconColor="Color.Info" class="pb-5" >ISAT-U Computer Lab.</MudNavLink>
+                @if (currentUser.UserRole == Enums.UserRole.Admin)
+                {
+                    <MudNavLink Href="/schedule" Match="NavLinkMatch.All" Icon="@Icons.Filled.Schedule" IconColor="Color.Info">Class Schedule</MudNavLink>
+                    <MudNavLink Href="/classes" Match="NavLinkMatch.All" Icon="@Icons.Filled.Dvr" IconColor="Color.Info">Classes</MudNavLink>
+                    <MudNavGroup Title="Manage Account" Icon="@Icons.Filled.ManageAccounts" HideExpandIcon='!open'>
+                        <MudNavLink Href="/teacher" Icon="@Icons.Filled.PersonAdd" IconColor="Color.Info">Teacher</MudNavLink>
+                        <MudNavLink Href="/student" Icon="@Icons.Filled.School" IconColor="Color.Info">Student</MudNavLink>
+                        <MudNavLink Href="/admin" Icon="@Icons.Filled.AdminPanelSettings" IconColor="Color.Info">Admin</MudNavLink>
+                    </MudNavGroup>
+                }
+                else if (currentUser.UserRole == Enums.UserRole.Faculty)
+                {
+                    <MudNavLink Href="/teacher/profile" Icon="@Icons.Filled.Person" IconColor="Color.Info">Profile</MudNavLink>
+                    <MudNavLink Href="/teacher/students" Icon="@Icons.Filled.Book" IconColor="Color.Info">Student Record</MudNavLink>
+                     <MudNavGroup Title="Attendance" Icon="@Icons.Filled.MenuBook" HideExpandIcon='!open'>
+                        <MudNavLink Href="/teacher/attendance" Icon="@Icons.Filled.Monitor" IconColor="Color.Info">Monitoring</MudNavLink>
+                        <MudNavLink Href="/teacher/record" Icon="@Icons.Filled.ListAlt" IconColor="Color.Info">Record</MudNavLink>
+                     </MudNavGroup>
+                }
+                else if (currentUser.UserRole == Enums.UserRole.Student)
+                {
+                    <MudNavLink Href="/student/profile" Icon="@Icons.Filled.Person" IconColor="Color.Info">Profile</MudNavLink>
+                    <MudNavLink Href="/student/attendance" Icon="@Icons.Filled.MenuBook" IconColor="Color.Info">Attendance Record</MudNavLink>
+                }
+                <MudNavGroup Title="Settings" Icon="@Icons.Filled.Settings" HideExpandIcon='!open'>
+                    @if (currentUser.UserRole == Enums.UserRole.Admin)
+                    {
+                        <MudNavLink Href="/course" Icon="@Icons.Filled.GolfCourse" IconColor="Color.Info">Course</MudNavLink>
+                        <MudNavLink Href="/section" Icon="@Icons.Filled.MeetingRoom" IconColor="Color.Info">Section</MudNavLink>
+                        <MudNavLink Href="/subject" Icon="@Icons.Filled.Subject" IconColor="Color.Info">Subject</MudNavLink>
+                    }
+                    else if (currentUser.UserRole == Enums.UserRole.Faculty || currentUser.UserRole == Enums.UserRole.Student)
+                    {
+                        <MudNavLink @onclick="(()=> Account())" Icon="@Icons.Filled.People" IconColor="Color.Info">Change Password</MudNavLink>
+                    }
+                </MudNavGroup>
+                <MudSpacer />
+                <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Filled.Logout" IconColor="Color.Error" @onclick='(()=> Logout())'>Logout</MudNavLink>
+            </MudNavMenu>
+            <MudSpacer></MudSpacer>
+            @if (open)
+            {
+                <span class="p-2">@DateTime.Now.Date.ToLongDateString()</span>
+            }
+        </MudDrawer>
+        <MudMainContent Class="pt-16 px-16">
+            <MudContainer Class="mt-6">
+                @Body
+            </MudContainer>
+        </MudMainContent>
+    </MudLayout>
+</div>
+<MudMessageBox @ref="dbox" Title="Logout" CancelText="Cancel">
+    <MessageContent>
+        Are you sure you want to logout?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Confirm</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+@code {
+    bool open = true;
+    bool dense = false;
+    bool rendered = false;
+    bool preserveOpenState = false;
+    string theTime;
+    Timer aTimer;
+    Users currentUser = new();
+    MudMessageBox dbox { get; set; }
+    Breakpoint breakpoint = Breakpoint.Lg;
+    DrawerClipMode clipMode = DrawerClipMode.Never;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            currentUser = await session.GetItemAsync<Users>("currentUser");
+            var userId = Convert.ToInt64(currentUser.UserId);
+            if (currentUser.UserRole == Enums.UserRole.Student)
+            {
+                var student = studentService.GetStudentById(userId);
+                currentUser.FullName = "Student: " + student.FirstName + " " + student.MiddleName + " " + student.LastName;
+            }
+            else if (currentUser.UserRole == Enums.UserRole.Faculty)
+            {
+                var teacher = teacherService.GetTeacherById(userId);
+                currentUser.FullName = "Teacher: " + teacher.FirstName + " " + teacher.MiddleName + " " + teacher.LastName;
+            }
+            else
+                currentUser.FullName = "Administrator";
+            StateHasChanged();
+            //message = "Executed for the first render.";
+        }
+        else
+        {
+
+            //message = "Executed after the first render.";
+        }
+    }
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
+    void Account()
+    {
+        navManager.NavigateTo($"/account/{currentUser.Id}");
+    }
+    async void Logout()
+    {
+        bool? result = await dbox.Show();
+        if (result != null)
+        {
+            Global.CurrentUser = new();
+            await session.RemoveItemAsync("currentUser");
+            navManager.NavigateTo("/");
+        }
+    }
+}

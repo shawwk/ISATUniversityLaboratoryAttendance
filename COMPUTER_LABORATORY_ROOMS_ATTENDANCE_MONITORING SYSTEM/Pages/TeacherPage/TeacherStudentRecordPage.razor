@@ -1,0 +1,159 @@
+﻿@page "/teacher/students"
+@using System.Transactions
+@inject ITeacherService teacherService
+@inject IUserService userService
+@inject IGlobalService globalService
+@inject ISectionService sectionService
+@inject ISnackbar SnackBar
+@inject NavigationManager nav
+@inject Blazored.SessionStorage.ISessionStorageService session
+
+<div class="container">
+    <div id="tblSchedule" class="m-auto mt-4">
+        @*        <MudSelect>
+        <MudSelectItem></MudSelectItem>
+        </MudSelect>*@
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 card mb-4">
+                    <div class="p-4">
+                        <label class="fs-5">Total Students: @students.Where(x=>x.Active == true).Count()</label>
+                    </div>
+                </div>
+                @*    <div class="col-lg-4">
+                <div class="card mb-4 p-4">
+                <label class="fs-5">Absent: @students.Where(x=>x.Date.ToShortDateString() == "1/1/0001").Count()</label>
+                </div>
+                </div>
+                <div class="col-lg-4">
+                <div class="card mb-4 p-4">
+                <label class="fs-5">Present: @students.Where(x=>x.Date.ToShortDateString() != "1/1/0001").Count()</label>
+                </div>
+                </div>*@
+            </div>
+        </div>
+        <select class="form-select fw-bold mb-3" style="font-size: 30px;text-align: center;" @onchange="LoadStudentRecord">
+            @foreach (var item in sectionList)
+            {
+                <option value="@item.ClassId">@item.Subject | @item.Course @item.Section</option>
+            }
+        </select>
+        <MudTable Items="students.Where(x=>x.Active == true).ToList()" Dense=true Striped=true Hover=true Bordered=true Elevation="3" Filter="new Func<Student,bool>(FilterFunc1)">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6" class="text-muted">Student Record</MudText>
+                <MudSpacer />
+                <MudTextField Placeholder="Search" @bind-Value="searchString" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <ColGroup>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col width="10px" />
+                <col width="10px" />
+                <col width="10px" />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Student ID</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Gender</MudTh>
+                <MudTh>Section</MudTh>
+                <MudTh>Birth Date</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Employee ID">@context.StudentId</MudTd>
+                <MudTd DataLabel="Name">@context.FirstName @context.MiddleName @context.LastName</MudTd>
+                <MudTd DataLabel="Gender">@Common.GetEnumDescription(context.Gender)</MudTd>
+                <MudTd DataLabel="Birth Date">@context.Course @context.Section</MudTd>
+                <MudTd DataLabel="Birth Date">@context.BirthDate.ToShortDateString()</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+        <a href='https://localhost:7035/api/Report/GetTeacher/1/1/1' class="d-none" target="_blank">GENERATE REPORT</a>
+    </div>
+</div>
+<MudMessageBox @ref="mbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to reset account username/password to default?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary">Reset</MudButton>
+    </YesButton>
+</MudMessageBox>
+<MudMessageBox @ref="dbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to deactivate account?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error">Deactivate</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@code {
+    List<Student> students = new List<Student>();
+    List<Sections> sectionList = new List<Sections>();
+    DateTime? bday = DateTime.Today;
+
+    Enums.Gender gender { get; set; }
+    MudMessageBox mbox { get; set; }
+    MudMessageBox dbox { get; set; }
+    string searchString;
+    long selectedClass;
+    Users currentUser = new();
+
+    long teacherID =0;
+    protected override void OnInitialized()
+    {
+        //LoadStudentRecord();
+        //LoadSections();
+        base.OnInitialized();
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            currentUser = await session.GetItemAsync<Users>("currentUser");
+            teacherID = Convert.ToInt64(currentUser.UserId);
+            LoadSections();
+            StateHasChanged();
+            //message = "Executed for the first render.";
+        }
+        else
+        {
+            //message = "Executed after the first render.";
+        }
+    }
+    void LoadStudentRecord(ChangeEventArgs e)
+    {
+        var subjectId = sectionList.First(x => x.ClassId == Convert.ToInt64(e.Value)).SubjectId;
+        var sectionId = sectionList.First(x => x.ClassId == Convert.ToInt64(e.Value)).Id;
+        students = teacherService.StudentRecord(teacherID, sectionId, subjectId);
+    }
+    void LoadSections()
+    {
+        sectionList = globalService.GetAssignSections(teacherID);
+        Task.Delay(2000);
+        if (sectionList.Count > 0)
+            students = teacherService.StudentRecord(teacherID, sectionList.First().Id, sectionList.First().SubjectId);
+    }
+    private bool FilterFunc1(Student stud) => FilterFunc(stud, searchString);
+    private bool FilterFunc(Student stud, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (stud.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (stud.MiddleName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (stud.LastName.Contains(searchString))
+            return true;
+        return false;
+    }
+    void Generate()
+    {
+        nav.NavigateTo(nav.BaseUri + "/api/Report/GetTeacher");
+    }
+}

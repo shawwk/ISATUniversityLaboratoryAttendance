@@ -1,0 +1,17 @@
+﻿@page "/home"
+@inject NavigationManager navManager;
+
+<div class="row text-center">
+   
+</div>
+
+@code {
+    public void NavigatetoClassSchedule()
+    {
+        navManager.NavigateTo("/schedule");
+    }
+    public void NavigateToTimeInOut()
+    {
+        navManager.NavigateTo("/time");
+    }
+}

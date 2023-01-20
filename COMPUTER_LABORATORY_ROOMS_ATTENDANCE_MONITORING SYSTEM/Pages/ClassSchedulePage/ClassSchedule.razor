@@ -1,0 +1,408 @@
+﻿@page "/schedule"
+@inject IClassScheduleService classService
+@inject ITeacherService teacherService
+@inject ISectionService sectionService
+@inject ISubjectService subjectService
+@inject IDialogService DialogService
+@inject ISnackbar SnackBar
+
+<div class="container">
+    <div class="col-lg-2 col-md-12">
+        @if (open)
+        {
+            <button class="btn btn-danger mb-2" @onclick='(()=> ToggleAdd())'>Cancel</button>
+            <button class="btn btn-primary mb-2" @onclick='(()=> AddNewSchedule())'>Save</button>
+        }
+        else
+        {
+            <button class="btn btn-primary mb-2" @onclick='(()=> ToggleAdd())'>New Schedule</button>
+        }
+    </div>
+    @if (open)
+    {
+        <MudCard>
+            <div class="row mb-4 p-4">
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Teacher:</label>
+                        <select class="form-select" @bind="@selectedTeacher.Id">
+                            @foreach (var item in teachers)
+                            {
+                                <option value="@item.Id">@item.FirstName @item.MiddleName @item.LastName</option>
+                            }
+                        </select>
+                        @*<BlazoredTypeahead SearchMethod="@SearchTeacher"
+                                       @bind-Value="selectedTeacher">
+                            <SelectedTemplate>
+                                @if (selectedTeacher.Id != 0)
+                                {
+                                    context.Id = selectedTeacher.Id;
+                                }
+                                                                else
+                            {
+                            selectedTeacher.Id = context.Id;
+                            }
+                                <MudText Class='font12'>@context.FirstName @context.MiddleName @context.LastName</MudText>
+                            </SelectedTemplate>
+                            <ResultTemplate>
+                                @context.FirstName @context.MiddleName @context.LastName
+                            </ResultTemplate>
+                        </BlazoredTypeahead>*@
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Course & Section:</label>
+                        <select class="form-select" @bind="@selectedSection.Id">
+                            @foreach (var item in sections)
+                            {
+                                <option value="@item.Id">@item.Course - @item.Section</option>
+                            }
+                        </select>
+                    @*    <BlazoredTypeahead SearchMethod="@SearchSection"
+                                       @bind-Value="selectedSection">
+                            <SelectedTemplate>
+                                @if (selectedSection.Id != 0)
+                                {
+                                    context.Id = selectedSection.Id;
+                                       @context.Course @context.Section
+                                }
+                                                                else
+                            {
+                            selectedSection.Id = context.Id;
+                            }
+                                @context.Course @context.Section
+                            </SelectedTemplate>
+                            <ResultTemplate>
+                                @context.Course - @context.Section
+                            </ResultTemplate>
+                        </BlazoredTypeahead>*@
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Subject:</label>
+                         <select class="form-select" @bind="@selectedSubject.Id">
+                            @foreach (var item in subjects)
+                            {
+                                <option value="@item.Id">@item.Subject</option>
+                            }
+                        </select>
+                       @* <BlazoredTypeahead SearchMethod="@SearchSubject"
+                                       @bind-Value="selectedSubject">
+                            <SelectedTemplate>
+                                @if (selectedSubject.Id != 0)
+                                {
+                                    context.Id = selectedSubject.Id;
+                                }
+                                                                else
+                            {
+                            selectedSubject.Id = context.Id;
+                            }
+                                @context.Subject
+                            </SelectedTemplate>
+                            <ResultTemplate>
+                                @context.Subject
+                            </ResultTemplate>
+                        </BlazoredTypeahead>*@
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Time From:</label>
+                        <MudTimePicker Color="Color.Dark" AmPm="true" @bind-Time="timeFrom" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Time To:</label>
+                        <MudTimePicker Color="Color.Dark" AmPm="true" @bind-Time="timeTo" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Day:</label>
+                        <MudSelect @bind-Value="days" Variant="Variant.Text">
+                            @foreach (Enums.Days item in Enum.GetValues(typeof(Enums.Days)))
+                            {
+                                <MudSelectItem Value="@item">@item</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">CEA-ICT Room:</label>
+                        <MudSelect @bind-Value="room" Variant="Variant.Text">
+                            @foreach (Enums.Rooms item in Enum.GetValues(typeof(Enums.Rooms)))
+                            {
+                                <MudSelectItem Value="@item">@Common.GetEnumDescription(item)</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </div>
+                </div>
+            </div>
+        </MudCard>
+    }
+    <div id="tblSchedule" class="m-auto mt-4">
+        <MudTable Items="listOfSchedule" Dense=true Striped=true Hover=true Bordered=true Filter="new Func<Schedule,bool>(FilterFunc1)">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6" class="text-muted">Class Schedule</MudText>
+                <MudSpacer />
+                <MudTextField Placeholder="Search" @bind-Value="searchString" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <ColGroup>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col width="10px" />
+                <col width="10px" />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Teacher</MudTh>
+                <MudTh>Course</MudTh>
+                <MudTh>Section</MudTh>
+                <MudTh>Subject</MudTh>
+                <MudTh>From</MudTh>
+                <MudTh>To</MudTh>
+                <MudTh>Day</MudTh>
+                <MudTh>Room</MudTh>
+                <MudTh></MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Teacher">@context.TeacherName</MudTd>
+                <MudTd DataLabel="Course">@context.Course</MudTd>
+                <MudTd DataLabel="Section">@context.SectionName</MudTd>
+                <MudTd DataLabel="Subject">@context.SubjectName</MudTd>
+                <MudTd DataLabel="From">@DateTime.Today.Add(context.TimeFrom).ToShortTimeString()</MudTd>
+                <MudTd DataLabel="To">@DateTime.Today.Add(context.TimeTo).ToShortTimeString()</MudTd>
+                <MudTd DataLabel="Day">@Common.GetEnumDescription(context.Day)</MudTd>
+                <MudTd DataLabel="Room">@Common.GetEnumDescription(context.Room)</MudTd>
+                <MudTd><button class="btn btn-success" @onclick="(()=> GetSchedule(context))">Edit</button></MudTd>
+                <MudTd><button class="btn btn-danger" @onclick="(() => ShowMessageBox(context.Id))">Remove</button></MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+    </div>
+</div>
+<MudMessageBox @ref="mbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Removing can <b><i>not</i></b> be undone!
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Remove</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@code {
+    Schedule classSchedule = new Schedule();
+    Teacher selectedTeacher = new Teacher();
+    Subjects selectedSubject = new Subjects();
+    Sections selectedSection = new Sections();
+    List<Schedule> listOfSchedule = new List<Schedule>();
+    List<Sections> sections = new();
+    List<Teacher> teachers = new();
+    List<Subjects> subjects = new();
+    TimeSpan? timeFrom = new TimeSpan(8, 0, 0);
+    TimeSpan? timeTo = new TimeSpan(12, 0, 0);
+
+    Enums.Days days { get; set; }
+    Enums.Rooms room { get; set; }
+    MudMessageBox mbox { get; set; }
+
+
+    string searchString = "";
+    bool open = false;
+    bool enable = false;
+    int classScheduleId;
+    int sectionId;
+    protected override void OnInitialized()
+    {
+        LoadAllSchedules();
+        LoadSection();
+        LoadTeacher();
+        LoadSubject();
+        base.OnInitialized();
+    }
+
+    public List<Schedule> LoadAllSchedules()
+    {
+        listOfSchedule = classService.GetClassSchedules();
+        return listOfSchedule;
+    }
+    private bool FilterFunc1(Schedule schedule) => FilterFunc(schedule, searchString);
+    private bool FilterFunc(Schedule schedule, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (schedule.TeacherName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (schedule.SubjectName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{schedule.Course} {schedule.SectionName}".Contains(searchString))
+            return true;
+        return false;
+    }
+    private void ToggleAdd()
+    {
+        selectedTeacher = new();
+        selectedSection = new();
+        selectedSubject = new();
+        classSchedule = new();
+        timeFrom = new TimeSpan(8, 0, 0);
+        timeTo = new TimeSpan(12, 0, 0);
+
+        open = !open;
+        StateHasChanged();
+    }
+    private void LoadSection()
+    {
+        sections = sectionService.GetAllSection().OrderBy(x=>x.Course).ThenBy(x=>x.Section).ToList();
+    }
+    private void LoadTeacher()
+    {
+        teachers = teacherService.GetAllTeacher().OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
+    }
+    private void LoadSubject()
+    {
+        subjects = subjectService.GetAllSubject().OrderBy(x => x.Subject).ToList();
+    }
+    private async Task<IEnumerable<Teacher>> SearchTeacher(string search)
+    {
+        var listOfTeacher = await Task.Run(() => teacherService.GetTeacher(search.Trim()));
+        return listOfTeacher.ToList();
+    }
+    private async Task<IEnumerable<Sections>> SearchSection(string search)
+    {
+        sections = await Task.Run(() => sectionService.GetSection(search.Trim()));
+        return sections.ToList();
+    }
+    private async Task<IEnumerable<Subjects>> SearchSubject(string search)
+    {
+        var listOfSubject = await Task.Run(() => subjectService.GetSubjects(search.Trim()));
+        return listOfSubject.ToList();
+    }
+    private Schedule MapProperties()
+    {
+        classSchedule.TeacherId = selectedTeacher.Id;
+        classSchedule.SectionId = selectedSection.Id;
+        classSchedule.SubjectId = selectedSubject.Id;
+        classSchedule.Day = days;
+        classSchedule.TimeFrom = timeFrom.Value;
+        classSchedule.TimeTo = timeTo.Value;
+        classSchedule.Day = days;
+        classSchedule.Room = room;
+        return classSchedule;
+    }
+    private Schedule AddNewSchedule()
+    {
+        try
+        {
+            if (classSchedule.Id <= 0)
+            {
+                var schedule = new Schedule();
+                if (!Validation())
+                {
+                    schedule = classService.AddSchedule(MapProperties());
+
+                    if (schedule != null)
+                    {
+                        var t = teacherService.StudentRecord(schedule.TeacherId, schedule.SectionId, schedule.SubjectId);
+                        listOfSchedule.Insert(0, schedule);
+                        open = false;
+                        StateHasChanged();
+                        Common.ShowAlert("Save success", Severity.Success, SnackBar);
+                        foreach (var item in t)
+                        {
+                            schedule.StudentId = item.StudentId;
+                            classService.SaveStudentSubject(schedule);
+                        }
+                        return schedule;
+                    }
+                    else
+                    {
+                        Common.ShowAlert("Schedule conflict with another schedule.", Severity.Error, SnackBar);
+                        return new Schedule();
+                    }
+
+                }
+                else
+                {
+                    Common.ShowAlert("Complete all the detail of schedule", Severity.Warning, SnackBar);
+                    return schedule;
+                }
+
+
+            }
+            else
+            {
+                var schedule = new Schedule();
+                if (!classService.CheckDuplicate(MapProperties()))
+                {
+                    schedule = classService.UpdateSchedule(MapProperties());
+                    listOfSchedule.RemoveAll(x => x.Id == classSchedule.Id);
+                    listOfSchedule.Insert(0, schedule);
+                    open = false;
+                    StateHasChanged();
+                    Common.ShowAlert("Update success", Severity.Success, SnackBar);
+                    return schedule;
+                }
+                else
+                {
+                    Common.ShowAlert("Schedule conflict with another schedule.", Severity.Error, SnackBar);
+                    return schedule;
+                }
+ 
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    private void GetSchedule(Schedule schedule)
+    {
+        classSchedule = classService.GetClassScheduleById(schedule.Id);
+        selectedTeacher.Id = classSchedule.TeacherId;
+        selectedTeacher.FirstName = classSchedule.TeacherName;
+        selectedSubject.Id = classSchedule.SubjectId;
+        selectedSubject.Subject = classSchedule.SubjectName;
+        selectedSection.Id = classSchedule.SectionId;
+        selectedSection.Section = classSchedule.Course + " " + classSchedule.SectionName;
+        timeFrom = classSchedule.TimeFrom;
+        timeTo = classSchedule.TimeTo;
+        days = classSchedule.Day;
+        room = classSchedule.Room;
+        open = true;
+        StateHasChanged();
+    }
+    private bool Validation()
+    {
+        return selectedTeacher.Id == 0
+        || selectedSubject.Id == 0 || selectedSection.Id == 0;
+    }
+    private void RemoveSchedule(Int64 Id)
+    {
+
+    }
+    private async void ShowMessageBox(Int64 Id)
+    {
+        bool? result = await mbox.Show();
+        if (result != null)
+        {
+            classService.DeactivateSchedule(Id);
+            listOfSchedule.RemoveAll(x => x.Id == Id);
+        }
+        StateHasChanged();
+    }
+}

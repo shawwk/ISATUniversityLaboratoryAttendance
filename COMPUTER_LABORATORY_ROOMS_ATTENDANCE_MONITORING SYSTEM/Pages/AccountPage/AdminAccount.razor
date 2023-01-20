@@ -1,0 +1,237 @@
+﻿@page "/admin"
+
+@inject ISubjectService subjectService
+@inject ISectionService sectionService
+@inject IUserService userService
+@inject ISnackbar SnackBar
+@inject NavigationManager nav
+
+<div class="container">
+    <div class="col-lg-2 col-md-12">
+        @if (open)
+        {
+            <button class="btn btn-danger mb-2" @onclick='(()=> ToggleAdd())'>Cancel</button>
+            <button class="btn btn-primary mb-2" @onclick='(()=> Add())'>Save</button>
+        }
+        else
+        {
+            <button class="btn btn-primary mb-2" @onclick='(()=> ToggleAdd())'>Add Admin</button>
+        }
+    </div>
+    @if (open)
+    {
+        <MudCard>
+            <div class="row mb-4 p-4">
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="sub" class="col-form-label">ID Number:</label>
+                        <input id="sub" type="number" class="form-control" @bind-value="@user.IDNumber" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="sem" class="col-form-label">Fullname:</label>
+                        <input id="sem" class="form-control" @bind-value="@user.FullName" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="sem" class="col-form-label">Username:</label>
+                        <input id="sem" class="form-control" @bind-value="@user.UserName" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="sem" class="col-form-label">Passsword:</label>
+                        <input id="sem" class="form-control" type="password" @bind-value="@user.Password" />
+                    </div>
+                </div>
+            </div>
+        </MudCard>
+    }
+    <div id="tblSchedule" class="m-auto mt-4">
+        <MudTable Items="userslist" Dense=true Striped=true Hover=true Bordered=true>
+            <ToolBarContent>
+                @*Filter="new Func<Sections,bool>(FilterFunc1)*@
+                <MudText Typo="Typo.h6" class="text-muted">Admin</MudText>
+                <MudSpacer />
+                <MudTextField Placeholder="Search" @bind-Value="searchString" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <ColGroup>
+                <col />
+                <col />
+                <col width="5%" />
+                <col width="5%" />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>ID Number</MudTh>
+                <MudTh>Username</MudTh>
+                <MudTh>Fullname</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Section">@context.IDNumber</MudTd>
+                <MudTd DataLabel="Course">@context.UserName</MudTd>
+                <MudTd DataLabel="Section">@context.FullName</MudTd>
+                <MudTd><button class="btn btn-danger" @onclick='(()=> DeactivateSection(context))'>Remove</button></MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+    </div>
+</div>
+
+<MudMessageBox @ref="dbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to remove admin?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error">Remove</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@code {
+
+    Sections section = new Sections();
+    Users user = new Users();
+    List<Users> userslist = new();
+    List<Sections> sections = new List<Sections>();
+
+    MudMessageBox dbox { get; set; }
+
+    string searchString = "";
+    bool open = false;
+
+    protected override void OnInitialized()
+    {
+        LoadAllSections();
+        base.OnInitialized();
+    }
+
+    public List<Users> LoadAllSections()
+    {
+        var list = userService.GetAllUser();
+        userslist = list.Where(x => x.UserRole == Enums.UserRole.Admin).ToList();
+        return userslist;
+    }
+    private void Add()
+    {
+        try
+        {
+            if (user.Id == 0)
+            {
+                
+                if (!Validation())
+                {
+                    bool isExists = userService.CheckUser((int)user.IDNumber, user.UserName);
+                    if (!RemoveSpecialCharacters(user))
+                    {
+                        if (!isExists)
+                        {
+                            user.UserRole = Enums.UserRole.Admin;
+                            user.Password = PasswordManager.Encrypt(user.Password);
+                            var admin = userService.RegisterUser(user);
+                            if (admin != null)
+                            {
+                                user.UserId = admin.Id.ToString().Trim();
+                                userService.RegisterAdmin(user);
+                            }
+                            userslist.Add(admin);
+                            Common.ShowAlert("Added successfully", Severity.Success, SnackBar);
+                            user = new();
+                            open = false;
+                        }
+                        else
+                            Common.ShowAlert("User already exists", Severity.Warning, SnackBar);
+
+                    }
+
+                }
+                else
+                {
+
+                    Common.ShowAlert("Complete all the details", Severity.Warning, SnackBar);
+                }
+
+            }
+            else
+            {
+                var us = userService.UpdateUsers(user);
+                userslist.RemoveAll(x => x.Id == us.Id);
+                userslist.Insert(0, us);
+                Common.ShowAlert("Updated successfully", Severity.Success, SnackBar);
+                open = false;
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    private bool FilterFunc1(Sections sec) => FilterFunc(sec, searchString);
+    private bool FilterFunc(Sections sec, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (sec.Course.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (sec.Section.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    private void ToggleAdd()
+    {
+        section = new();
+
+        open = !open;
+        StateHasChanged();
+    }
+    private void GetAdmin(Int64 Id)
+    {
+        var u = userService.GetAllUser();
+        user = u.FirstOrDefault(x => x.Id == Id);
+        StateHasChanged();
+        open = true;
+    }
+
+    private async void DeactivateSection(Users users)
+    {
+        bool? result = await dbox.Show();
+        if (result != null)
+        {
+            try
+            {
+                users.Active = false;
+                userService.DeactivateUser(users);
+                userslist.RemoveAll(x => x.Id == users.Id);
+                StateHasChanged();
+                Common.ShowAlert("Admin removed successfully!", Severity.Success, SnackBar);
+            }
+            catch (Exception ex)
+            {
+                Common.ShowAlert(ex.ToString(), Severity.Error, SnackBar);
+            }
+        }
+    }
+    private bool Validation()
+    {
+        return user.IDNumber == 0 || user.FullName == "" || user.UserName == "" || user.Password == "";
+    }
+    public bool RemoveSpecialCharacters(Users input)
+    {
+        Regex r = new Regex(
+                      "(?:[^a-zA-Z0-9 ]|(?<=['\"])s)",
+                      RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        //return r.Replace(input, String.Empty);
+        if (r.IsMatch(input.FullName))
+        { Common.ShowAlert("Fullname: Special characters are not allowed!", Severity.Error, SnackBar); return true; }
+        //else if (r.IsMatch(input.UserName))
+        //{ Common.ShowAlert("Username: Special characters are not allowed!", Severity.Error, SnackBar); return true; }
+        //else if (r.IsMatch(input.LastName))
+        //{ Common.ShowAlert("Last name: Special characters are not allowed!", Severity.Error, SnackBar); return true; }
+        else
+            return false;
+    }
+}

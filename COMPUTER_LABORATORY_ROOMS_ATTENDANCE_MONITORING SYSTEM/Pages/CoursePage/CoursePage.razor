@@ -1,0 +1,198 @@
+﻿@page "/course"
+
+@inject ISubjectService subjectService
+@inject ISectionService sectionService
+@inject ICourseService courseService
+@inject ISnackbar SnackBar
+@inject NavigationManager nav
+
+<div class="container">
+    <div class="col-lg-2 col-md-12">
+        @if (open)
+        {
+            <button class="btn btn-danger mb-2" @onclick='(()=> ToggleAdd())'>Cancel</button>
+            <button class="btn btn-primary mb-2" @onclick='(()=> Add())'>Save</button>
+        }
+        else
+        {
+            <button class="btn btn-primary mb-2" @onclick='(()=> ToggleAdd())'>Add Course</button>
+        }
+    </div>
+    @if (open)
+    {
+        <MudCard>
+            <div class="row mb-4 p-4">
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="sub" class="col-form-label">Course:</label>
+                        <input id="sub" class="form-control" @bind-value="course.CourseName" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="sem" class="col-form-label">Shortcut name:</label>
+                        <input id="sem" class="form-control" @bind-value="course.ShortCutName" />
+                    </div>
+                </div>
+            </div>
+        </MudCard>
+    }
+    <div id="tblSchedule" class="m-auto mt-4">
+        <MudTable Items="courses" Dense=true Striped=true Hover=true Bordered=true Filter="new Func<Course,bool>(FilterFunc1)">
+            @*Filter="new Func<Sections,bool>(FilterFunc1)"*@
+            <ToolBarContent>
+                <MudText Typo="Typo.h6" class="text-muted">Courses</MudText>
+                <MudSpacer />
+                <MudTextField Placeholder="Search" @bind-Value="searchString" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <ColGroup>
+                <col />
+                <col />
+                <col width="5%" />
+                <col width="5%" />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Course</MudTh>
+                <MudTh>Shortcut</MudTh>
+                <MudTh></MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Course">@context.CourseName</MudTd>
+                <MudTd DataLabel="Shortcut">@context.ShortCutName</MudTd>
+                <MudTd><button class="btn btn-success" @onclick="(()=> GetSection(context.Id))">Edit</button></MudTd>
+                <MudTd><button class="btn btn-danger" @onclick="(()=> DeactivateSection(context))">Remove</button></MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+    </div>
+</div>
+
+<MudMessageBox @ref="dbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to course section?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error">Remove</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@code {
+
+    Sections section = new Sections();
+    Course course = new Course();
+    List<Sections> sections = new List<Sections>();
+    List<Course> courses = new();
+
+    MudMessageBox dbox { get; set; }
+
+    string searchString = "";
+    bool open = false;
+
+    protected override void OnInitialized()
+    {
+        LoadAllCourses();
+        base.OnInitialized();
+    }
+
+    public List<Course> LoadAllCourses()
+    {
+        courses = courseService.GetAllCourse();
+        return courses;
+    }
+    private void Add()
+    {
+        try
+        {
+            if (course.Id == 0)
+            {
+                if (!Validation())
+                {
+                    if (!courseService.CheckCourse(course))
+                    {
+                        var sec = courseService.AddCourse(course);
+                        courses.Add(sec);
+                        Common.ShowAlert("Added successfully", Severity.Success, SnackBar);
+                        open = false;
+                    }
+                    else
+                        Common.ShowAlert("Course already exists", Severity.Warning, SnackBar);
+
+                }
+                else
+                {
+                    Common.ShowAlert("Complete all the details", Severity.Warning, SnackBar);
+                }
+            }
+            else
+            {
+                if (!courseService.CheckCourse(course))
+                {
+                    var sec = courseService.UpdateCourse(course);
+                    courses.RemoveAll(x => x.Id == sec.Id);
+                    courses.Add(sec);
+                    Common.ShowAlert("Updated successfully", Severity.Success, SnackBar);
+                    open = false;
+                }
+                else
+                    Common.ShowAlert("Course already exists", Severity.Warning, SnackBar);
+               
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    private bool FilterFunc1(Course c) => FilterFunc(c, searchString);
+    private bool FilterFunc(Course c, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (c.CourseName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (c.ShortCutName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    private void ToggleAdd()
+    {
+        course = new();
+
+        open = !open;
+        StateHasChanged();
+    }
+    private void GetSection(Int64 Id)
+    {
+        course = courseService.GetCourseById(Id);
+        StateHasChanged();
+        open = true;
+    }
+
+    private async void DeactivateSection(Course section)
+    {
+        bool? result = await dbox.Show();
+        if (result != null)
+        {
+            try
+            {
+                section.Active = false;
+                courseService.Deactivate(section);
+                courses.RemoveAll(x => x.Id == section.Id);
+                StateHasChanged();
+                Common.ShowAlert("Course removed successfully!", Severity.Success, SnackBar);
+            }
+            catch (Exception ex)
+            {
+                Common.ShowAlert(ex.ToString(), Severity.Error, SnackBar);
+            }
+        }
+    }
+    private bool Validation()
+    {
+        return course.CourseName == "" || course.ShortCutName == "";
+    }
+}

@@ -1,0 +1,266 @@
+﻿@page "/teacher/record"
+@using System.Transactions
+@inject ITeacherService teacherService
+@inject IUserService userService
+@inject IGlobalService globalService
+@inject ISectionService sectionService
+@inject ISnackbar SnackBar
+@inject Blazored.SessionStorage.ISessionStorageService session
+
+<div class="container">
+    <div id="tblSchedule" class="m-auto mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4 p-4">
+                        <label class="fs-5">Absent: @students.Where(x => DateTime.Today.Add(x.TimeIn).TimeOfDay == TimeSpan.Zero || DateTime.Today.Add(x.TimeOut).TimeOfDay == TimeSpan.Zero).Count()</label>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4 p-4">
+                        <label class="fs-5">Present: @students.Where(x => DateTime.Today.Add(x.TimeIn).TimeOfDay != TimeSpan.Zero && DateTime.Today.Add(x.TimeOut).TimeOfDay != TimeSpan.Zero).Count()</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <select class="form-select fw-bold mb-3" style="font-size: 30px;text-align: center;" @onchange="LoadStudentAttendanceRecord">
+            @foreach (var item in sectionList)
+            {
+                <option value="@item.ClassId">@item.Subject | @item.Course @item.Section</option>
+            }
+        </select>
+        @* <span>Absent</span>
+        <span>Present</span>*@
+        <MudTable Items="students.Where(x=>x.Active == true).ToList()" Dense=true Striped=true Hover=true Bordered=true Elevation="3" Filter="new Func<Student,bool>(FilterFunc1)">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6" class="text-muted">Attendance Record</MudText>
+                <MudSpacer />
+                <button class="btn btn-primary" id="filter-btn" data-bs-toggle="modal" data-bs-target="#filter">Filter</button>
+                <MudTextField Placeholder="Search" @bind-Value="searchString" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <ColGroup>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Student ID</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Gender</MudTh>
+                <MudTh>Section</MudTh>
+                <MudTh>Date</MudTh>
+                <MudTh>In</MudTh>
+                <MudTh>Out</MudTh>
+                <MudTh>Status</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Employee ID">@context.StudentId</MudTd>
+                <MudTd DataLabel="Name">@context.FirstName @context.MiddleName @context.LastName</MudTd>
+                <MudTd DataLabel="Gender">@Common.GetEnumDescription(context.Gender)</MudTd>
+                <MudTd DataLabel="Section">@context.Course @context.Section</MudTd>
+                <MudTd DataLabel="Date">@GetDateTime(context.Date.ToLongDateString())</MudTd>
+                <MudTd DataLabel="In">@GetDateTime(DateTime.Today.Add(context.TimeIn).ToShortTimeString())</MudTd>
+                <MudTd DataLabel="Out">@GetDateTime(DateTime.Today.Add(context.TimeOut).ToShortTimeString())</MudTd>
+                @if (GetStatus(context) == "Absent" || GetStatus(context) == "Invalid/Absent")
+                {
+                    <MudTd DataLabel="Status" Class="bg-danger text-white">@GetStatus(context)</MudTd>
+                }
+                else if (GetStatus(context) == "Late")
+                {
+                    <MudTd DataLabel="Status" Class="bg-warning text-white">@GetStatus(context)</MudTd>
+                }
+                else
+                {
+                    <MudTd DataLabel="Status" Class="bg-success text-white">@GetStatus(context)</MudTd>
+                }
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+        @*<button class="btn btn-danger mt-3">End Class</button>*@
+    </div>
+</div>
+<div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Date</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                </div>
+                <div class="mb-3">
+                    <MudDateRangePicker Label="Date Range" @bind-DateRange="_dateRange" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @onclick="(()=> LoadStudentAttendance())" data-bs-dismiss="modal">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<MudMessageBox @ref="mbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to reset account username/password to default?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary">Reset</MudButton>
+    </YesButton>
+</MudMessageBox>
+<MudMessageBox @ref="dbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to deactivate account?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error">Deactivate</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@code {
+    List<Student> students = new List<Student>();
+    List<Student> totalStudent = new List<Student>();
+    List<Sections> sectionList = new List<Sections>();
+    DateTime? bday = DateTime.Today;
+    DateTime? dateToday = DateTime.Today;
+    private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.Date);
+
+    Enums.Gender gender { get; set; }
+    MudMessageBox mbox { get; set; }
+    MudMessageBox dbox { get; set; }
+    string searchString;
+    long selectedClass;
+    Users currentUser = new();
+    //long teacherID = Convert.ToInt64(Global.CurrentUser.UserId);
+    long teacherID = 0;
+    protected override void OnInitialized()
+    {
+        //LoadStudentRecord();
+        //LoadSections();
+        base.OnInitialized();
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            currentUser = await session.GetItemAsync<Users>("currentUser");
+            teacherID = Convert.ToInt64(currentUser.UserId);
+            LoadSections();
+            StateHasChanged();
+            //message = "Executed for the first render.";
+        }
+        else
+        {
+            //message = "Executed after the first render.";
+        }
+    }
+    string GetStatus(Student status)
+    {
+        var timeIn = DateTime.Today.Add(status.TimeIn).TimeOfDay;
+        var timeOut = DateTime.Today.Add(status.TimeOut).TimeOfDay;
+        var timeFrom = DateTime.Today.Add(status.TimeFrom).TimeOfDay;
+        var time = TimeSpan.Compare(timeIn, timeFrom);
+        if (time == 1 && timeOut != TimeSpan.Zero)
+            return "Late";
+        if (timeIn != TimeSpan.Zero && timeOut != TimeSpan.Zero)
+            return "Present";
+        if (timeIn != TimeSpan.Zero && timeOut == TimeSpan.Zero)
+            return "Invalid/Absent";
+        else
+            return "Absent";
+    }
+    void LoadStudentAttendanceRecord(ChangeEventArgs e)
+    {
+        selectedClass = Convert.ToInt64(e.Value);
+        var filterParam = new FilterParameter()
+            {
+                TeacherId = teacherID,
+                SectionId = sectionList.Count > 0 ? sectionList.First(x => x.ClassId == selectedClass).Id : 0,
+                DateFrom = DateTime.Now.Date,
+                DateTo = DateTime.Now.Date,
+                TimeFrom = sectionList.Count > 0 ? sectionList.First(x => x.ClassId == selectedClass).TimeFrom : TimeSpan.Zero,
+                TimeTo = sectionList.Count > 0 ? sectionList.First(x => x.ClassId == selectedClass).TimeTo : TimeSpan.Zero,
+                Day = sectionList.Count > 0 ? sectionList.First(x => x.ClassId == selectedClass).Day : Enums.Days.Monday,
+                SubjectId = sectionList.Count > 0 ? sectionList.First(x => x.ClassId == selectedClass).SubjectId : 0,
+            };
+        students = globalService.GetAllStudentRecord(filterParam);
+        StateHasChanged();
+    }
+    void LoadStudentAttendance()
+    {
+        var filterParam = new FilterParameter()
+            {
+                TeacherId = teacherID,
+                SectionId = sectionList.First(x => x.ClassId == selectedClass).Id,
+                DateFrom = _dateRange.Start.GetValueOrDefault().Date,
+                DateTo = _dateRange.End.GetValueOrDefault().Date,
+                SubjectId = sectionList.Count > 0 ? sectionList.First(x => x.ClassId == selectedClass).SubjectId : 0
+            };
+        var list = globalService.GetStudentByDate(filterParam);
+        students = list.Where(x => x.Active == true).ToList();
+        _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.Date);
+        StateHasChanged();
+    }
+    void LoadSections()
+    {
+        sectionList = globalService.GetAssignSections(teacherID);
+        Task.Delay(2000);
+
+        var filterParam = new FilterParameter()
+            {
+                TeacherId = teacherID,
+                SectionId = sectionList.Count > 0 ? sectionList.First().Id : 0,
+                SubjectId = sectionList.Count > 0 ? sectionList.First().SubjectId : 0,
+                TimeFrom = sectionList.Count > 0 ? sectionList.First().TimeFrom : TimeSpan.Zero,
+                TimeTo = sectionList.Count > 0 ? sectionList.First().TimeTo : TimeSpan.Zero,
+                Day = sectionList.Count > 0 ? sectionList.First().Day : Enums.Days.Monday
+            };
+        if (sectionList.Count > 0)
+        {
+            selectedClass = sectionList.First().ClassId;
+            var stu = globalService.GetAllStudentRecord(filterParam);
+            students = stu.Where(x => x.Date == DateTime.Now.Date && x.Active == true).ToList();
+        }
+
+        StateHasChanged();
+    }
+    private bool FilterFunc1(Student stud) => FilterFunc(stud, searchString);
+    private bool FilterFunc(Student stud, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (stud.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (stud.MiddleName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (stud.LastName.Contains(searchString))
+            return true;
+        if (stud.Date.ToShortDateString().Contains(searchString))
+            return true;
+        return false;
+    }
+    private string GetDateTime(string dateTime)
+    {
+        if (dateTime == "1/1/0001" || dateTime == "12:00 AM")
+        {
+            return "";
+        }
+        else
+        {
+            return dateTime;
+        }
+    }
+    private void CountPresentAbsent()
+    {
+        students.Where(x => DateTime.Today.Add(x.TimeIn).TimeOfDay == TimeSpan.Zero).Count();
+    }
+}

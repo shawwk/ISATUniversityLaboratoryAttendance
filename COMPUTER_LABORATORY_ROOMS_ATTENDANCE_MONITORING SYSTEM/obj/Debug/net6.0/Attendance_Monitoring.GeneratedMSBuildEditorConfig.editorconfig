@@ -1,0 +1,141 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING_SYSTEM
+build_property.RootNamespace = COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING_SYSTEM
+build_property.ProjectDir = C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Dialog/ScheduleDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nXFNjaGVkdWxlRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/AccountPage/AccountPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudFBhZ2VcQWNjb3VudFBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/AccountPage/AdminAccount.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudFBhZ2VcQWRtaW5BY2NvdW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/ClassSchedulePage/ClassesPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xhc3NTY2hlZHVsZVBhZ2VcQ2xhc3Nlc1BhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/ClassSchedulePage/ClassSchedule.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xhc3NTY2hlZHVsZVBhZ2VcQ2xhc3NTY2hlZHVsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/CoursePage/CoursePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291cnNlUGFnZVxDb3Vyc2VQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/FetchData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/HomePage/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZVBhZ2VcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/Report/StudentAttendance.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0XFN0dWRlbnRBdHRlbmRhbmNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/SectionPage/SectionPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VjdGlvblBhZ2VcU2VjdGlvblBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/StudentPage/StudentAttendancePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3R1ZGVudFBhZ2VcU3R1ZGVudEF0dGVuZGFuY2VQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/StudentPage/StudentPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3R1ZGVudFBhZ2VcU3R1ZGVudFBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/StudentPage/StudentProfilePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3R1ZGVudFBhZ2VcU3R1ZGVudFByb2ZpbGVQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/SubjectPage/SubjectPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3ViamVjdFBhZ2VcU3ViamVjdFBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/TeacherPage/RecordPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVhY2hlclBhZ2VcUmVjb3JkUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/TeacherPage/TeacherAttendanceRecordPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVhY2hlclBhZ2VcVGVhY2hlckF0dGVuZGFuY2VSZWNvcmRQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/TeacherPage/TeacherPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVhY2hlclBhZ2VcVGVhY2hlclBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/TeacherPage/TeacherProfilePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVhY2hlclBhZ2VcVGVhY2hlclByb2ZpbGVQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/TeacherPage/TeacherStudentRecordPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVhY2hlclBhZ2VcVGVhY2hlclN0dWRlbnRSZWNvcmRQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/TimeInOutPage/TimeInOutPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGltZUluT3V0UGFnZVxUaW1lSW5PdXRQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Shared/LoginLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luTGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-amyanzostg
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-7aqal6gk7w
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Shawk/OneDrive/Desktop/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM/Pages/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

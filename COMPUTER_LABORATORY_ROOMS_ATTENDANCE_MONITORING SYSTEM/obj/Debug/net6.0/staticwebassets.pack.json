@@ -1,0 +1,269 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\Attendance_Monitoring.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Attendance_Monitoring.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\bootstrap\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\bootstrap\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\images\\ISAT-U.jpg",
+      "PackagePath": "staticwebassets\\images\\ISAT-U.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\images\\ISAT.png",
+      "PackagePath": "staticwebassets\\images\\ISAT.png"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\images\\class_schedule.png",
+      "PackagePath": "staticwebassets\\images\\class_schedule.png"
+    },
+    {
+      "Id": "C:\\Users\\Shawk\\OneDrive\\Desktop\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\\wwwroot\\images\\clock.png",
+      "PackagePath": "staticwebassets\\images\\clock.png"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.Attendance_Monitoring.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.Attendance_Monitoring.props",
+      "PackagePath": "build\\Attendance_Monitoring.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.Attendance_Monitoring.props",
+      "PackagePath": "buildMultiTargeting\\Attendance_Monitoring.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.Attendance_Monitoring.props",
+      "PackagePath": "buildTransitive\\Attendance_Monitoring.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

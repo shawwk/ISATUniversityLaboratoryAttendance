@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING_SYSTEM</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Reports\teacherReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Reports\StudentRecord.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\StudentRecord.rdlc" />
+    <EmbeddedResource Include="Reports\teacherReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.SessionStorage" Version="2.2.0" />
+    <PackageReference Include="Blazored.Typeahead" Version="4.7.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="MudBlazor" Version="6.1.2" />
+    <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.17" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ReportDataSet\Student.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Student.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="ReportDataSet\teacher.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>teacher.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReportDataSet\Student.xsd">
+      <SubType>Designer</SubType>
+      <LastGenOutput>Student.Designer.cs</LastGenOutput>
+      <Generator>MSDataSetGenerator</Generator>
+    </None>
+    <None Update="ReportDataSet\teacher.xsd">
+      <SubType>Designer</SubType>
+      <LastGenOutput>teacher.Designer.cs</LastGenOutput>
+      <Generator>MSDataSetGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Properties\DataSources\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING_SYSTEM.Service.GlobalService.IGlobalService.datasource" />
+  </ItemGroup>-->
+
+</Project>

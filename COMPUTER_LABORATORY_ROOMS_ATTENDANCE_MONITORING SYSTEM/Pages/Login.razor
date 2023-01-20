@@ -1,0 +1,103 @@
+﻿@layout LoginLayout
+@page "/"
+@using System.ComponentModel
+@using System.Reflection
+@inject Blazored.SessionStorage.ISessionStorageService session
+@inject IUserService userService
+@inject NavigationManager navManager
+@inject ISnackbar Snackbar
+
+<div class="row  mt-5">
+    @*    <div class="col-8 border">
+    <div class="p-2">
+    <img class="img-fluid" style="z-index: -1000; opacity: 0.5" src="images/ISAT-U.jpg" />
+    </div>
+    </div>*@
+    <div class="col-lg-3 col-md-12 col-xm-3 m-auto">
+        <form>
+            <div class="container border rounded-1 p-4 bg-white" style="margin-top: 25vh">
+                <div class="mb-3 row">
+                    <label for="staticEmail" class="col-m-2 col-form-label">Username</label>
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="staticEmail" @bind-value="@userAccount.UserName">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputPassword" class="col-m-2 col-form-label">Password</label>
+                    <div class="col-sm-12">
+                        <input type="password" class="form-control" id="inputPassword" @bind-value="@userAccount.Password">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="col-sm-12">
+                        <MudButton type="button" class="form-control bg-primary text-white" OnClick="authenticate">Login</MudButton>
+                    </div>
+                </div>
+                @*            <div class="row text-center">
+                <span>Don't have an account? </span><a href="" data-bs-toggle="modal" data-bs-target="#register">REGISTER</a>
+                </div>*@
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                </div>
+                <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Username:</label>
+                    <input required type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Password:</label>
+                    <input require type="password" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="">User Role: </label>
+                    <select class='form-select'>
+                        @foreach (var item in Enum.GetValues(typeof(Enums.UserRole)))
+                        {
+                            <option value="item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    private Users userAccount = new Users();
+    private Snackbar _snackbar;
+
+    public async void authenticate()
+    {
+        var user = userService.Authenticate(userAccount);
+        if (user.Id > 0)
+        {
+            await session.SetItemAsync("currentUser", user);
+            //Global.CurrentUser = user;
+            if (user.UserRole == Enums.UserRole.Admin)
+                navManager.NavigateTo("/schedule");
+            else if (user.UserRole == Enums.UserRole.Faculty)
+                navManager.NavigateTo("/teacher/profile");
+            else
+                navManager.NavigateTo("/student/profile");
+        }
+        else
+        {
+            Common.ShowAlert("Incorrect Username/Password", Severity.Error, Snackbar);
+        }
+
+    }
+}
+

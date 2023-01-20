@@ -1,0 +1,10 @@
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.AssemblyReference.cache
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.SuggestedBindingRedirects.cache
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\Shawk\OneDrive\Desktop\COMPUTER_LABORATORY_ROOMS_ATTENDANCE_MONITORING SYSTEM\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb

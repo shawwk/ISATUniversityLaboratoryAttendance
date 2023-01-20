@@ -1,0 +1,90 @@
+﻿@page "/account/{userId:int}"
+@inject IUserService userService
+@inject ISnackbar snackbar
+@inject NavigationManager navmanager
+@inject Blazored.SessionStorage.ISessionStorageService session
+<div class="row w-25 m-auto  shadow">
+    <div class="container p-4">
+        <form>
+        <div class="col-12">
+            <label>Current Password: </label>
+            <input required class="form-control" type="password" @bind-value="CurrentPassword" />
+        </div>
+        <div class="col-12">
+            <label>New Password: </label>
+            <input required class="form-control" type="password" @bind-value="NewPassword" />
+        </div>
+        <div class="col-12">
+            <label>Re-type Password: </label>
+            <input required class="form-control" type="password" @bind-value="RePassword" />
+        </div>
+        </form>
+    </div>
+    <div class="text-center">
+        <input class="btn btn-primary m-2" type="button" value="Save" @onclick="(()=> UpdateAccount())" />
+        <input class="btn btn-danger m-2" type="button" value="Cancel" @onclick="(()=> navigateTo())"/>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int userId { get; set; }
+
+    Users users = new();
+    Users currentUser = new();
+    string CurrentPassword = "", NewPassword = "", RePassword = "";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            currentUser = await session.GetItemAsync<Users>("currentUser");
+            StateHasChanged();
+            //message = "Executed for the first render.";
+        }
+        else
+        {
+            //message = "Executed after the first render.";
+        }
+    }
+    private void UpdateAccount()
+    {
+        if (NewPassword != RePassword)
+        {
+            Common.ShowAlert("Please make sure your password match", Severity.Warning, snackbar);
+        }
+        else
+        {
+            if (CurrentPassword != PasswordManager.Decrypt(currentUser.Password))
+                Common.ShowAlert("Incorrect current password", Severity.Warning, snackbar);
+            else if (NewPassword == "" || RePassword == "")
+                Common.ShowAlert("Please type your new password", Severity.Warning, snackbar);
+            else
+            {
+                users = new Users()
+                    {
+                        Id = currentUser.Id,
+                        Password = PasswordManager.Encrypt(NewPassword)
+                    };
+                userService.UpdateUsernamePassword(users);
+                Common.ShowAlert("Password updated successfully", Severity.Success, snackbar);
+                CurrentPassword = ""; NewPassword = "";  RePassword = "";
+                if (currentUser.UserRole == Enums.UserRole.Faculty)
+                    navmanager.NavigateTo("/teacher/profile");
+                else if (currentUser.UserRole == Enums.UserRole.Student)
+                    navmanager.NavigateTo("/student/profile");
+            }
+        }
+    }
+    private void navigateTo()
+    {
+        if (currentUser.UserRole == Enums.UserRole.Faculty)
+            navmanager.NavigateTo("/teacher/profile");
+        else if (currentUser.UserRole == Enums.UserRole.Student)
+            navmanager.NavigateTo("/student/profile");
+    }
+}

@@ -1,0 +1,196 @@
+﻿@page "/subject"
+
+@inject ISubjectService subjectService
+@inject ISnackbar SnackBar
+
+<div class="container">
+    <div class="col-lg-2 col-md-12">
+        @if (open)
+        {
+            <button class="btn btn-danger mb-2" @onclick='(()=> ToggleAdd())'>Cancel</button>
+            <button class="btn btn-primary mb-2" @onclick='(()=> Add())'>Save</button>
+        }
+        else
+        {
+            <button class="btn btn-primary mb-2" @onclick='(()=> ToggleAdd())'>Add Subject</button>
+        }
+    </div>
+    @if (open)
+    {
+        <MudCard>
+            <div class="row mb-4 p-4">
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="emp-id" class="col-form-label">Subject:</label>
+                        <input id="emp-id" class="form-control" @bind-value="@subject.Subject" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label for="f-name" class="col-form-label">Semester:</label>
+                        @*<input id="f-name" class="form-control" @bind-value="@subject.Semester" />*@
+                        <select class="form-select" @bind="@subject.Semester">
+                            @foreach (Enums.Semester item in Enum.GetValues(typeof(Enums.Semester)))
+                            {
+                                <option value="@item">@Common.GetEnumDescription(item)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </MudCard>
+    }
+    <div id="tblSchedule" class="m-auto mt-4">
+        <MudTable Items="subjects" Dense=true Striped=true Hover=true Bordered=true Filter="new Func<Subjects,bool>(FilterFunc1)">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6" class="text-muted">Subjects</MudText>
+                <MudSpacer />
+                <MudTextField Placeholder="Search" @bind-Value="searchString" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <ColGroup>
+                <col />
+                <col />
+                <col width="5%" />
+                <col width="5%" />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Subject</MudTh>
+                <MudTh>Semester</MudTh>
+                <MudTh></MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Subject">@context.Subject</MudTd>
+                <MudTd DataLabel="Semester">@Common.GetEnumDescription(context.Semester)</MudTd>
+                <MudTd><button class="btn btn-success" @onclick='(()=> GetSubject(context.Id))'>Edit</button></MudTd>
+                <MudTd><button class="btn btn-danger" @onclick='(()=> DeactivateSubject(context))'>Remove</button></MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+    </div>
+</div>
+
+<MudMessageBox @ref="dbox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Are you sure to remove subject?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error">Remove</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@code {
+
+    Subjects subject = new Subjects();
+    List<Subjects> subjects = new List<Subjects>();
+
+    MudMessageBox dbox { get; set; }
+
+    string searchString = "";
+    bool open = false;
+    bool disableEmployeeId = false;
+
+    protected override void OnInitialized()
+    {
+        LoadAllSubject();
+        base.OnInitialized();
+    }
+
+    public List<Subjects> LoadAllSubject()
+    {
+        subjects = subjectService.GetAllSubject();
+        return subjects;
+    }
+    private void Add()
+    {
+        try
+        {
+            if (subject.Id == 0)
+            {
+                if (!Validation())
+                {
+                    if (!subjectService.CheckSubject(subject))
+                    {
+                        var subj = subjectService.AddSubject(subject);
+                        subjects.Add(subj);
+                        Common.ShowAlert("Added successfully", Severity.Success, SnackBar);
+                        open = false;
+                    }
+                    else
+                        Common.ShowAlert("Subject already exists", Severity.Warning, SnackBar);
+                }
+                else
+                {
+                    Common.ShowAlert("Complete all the details", Severity.Warning, SnackBar);
+                }
+            }
+            else
+            {
+                if (!subjectService.CheckSubject(subject))
+                {
+                    var subj = subjectService.UpdateSubject(subject);
+                    subjects.RemoveAll(x => x.Id == subj.Id);
+                    subjects.Add(subj);
+                    Common.ShowAlert("Updated successfully", Severity.Success, SnackBar);
+                    open = false;
+                }
+                else
+                    Common.ShowAlert("Subject already exists", Severity.Warning, SnackBar);
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    private bool FilterFunc1(Subjects subj) => FilterFunc(subj, searchString);
+    private bool FilterFunc(Subjects subj, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (subj.Subject.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    private void ToggleAdd()
+    {
+        subject = new();
+        disableEmployeeId = false;
+
+        open = !open;
+        StateHasChanged();
+    }
+    private void GetSubject(Int64 Id)
+    {
+        subject = subjectService.GetSubjectById(Id);
+        StateHasChanged();
+        open = true;
+    }
+
+    private async void DeactivateSubject(Subjects subject)
+    {
+        bool? result = await dbox.Show();
+        if (result != null)
+        {
+            try
+            {
+                subject.Active = false;
+                subjectService.Deactivate(subject);
+                subjects.RemoveAll(x => x.Id == subject.Id);
+                StateHasChanged();
+                Common.ShowAlert("Subject removed successfully!", Severity.Success, SnackBar);
+            }
+            catch (Exception ex)
+            {
+                Common.ShowAlert(ex.ToString(), Severity.Error, SnackBar);
+            }
+        }
+    }
+    private bool Validation()
+    {
+        return subject.Subject == "" ;
+    }
+}
